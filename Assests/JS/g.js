@@ -10,11 +10,24 @@ async function addGames() {
     // Filter out all games except 'mathpunch V2' and 'Roblox'
     const filteredGames = games.filter(game => game.game === "mathpunch V2");
 
-    // Add the 'Roblox' button manually
-    filteredGames.push({
-      game: "Roblox",
-      gameroot: "https://mathpunch.github.io/grasshopper/"
-    });
+    // Add the game buttons manually
+    const manualGames = [
+      { game: "Roblox", gameroot: "https://mathpunch.github.io/grasshopper/" },
+      { game: "Bitlife", gameroot: "https://mathpunch.github.io/panda/" },
+      { game: "Stickmanhook", gameroot: "https://mathpunch.github.io/kitty/" },
+      { game: "Super Mario 64", gameroot: "https://mathpunch.github.io/dog/" },
+      { game: "Tiny Fishing", gameroot: "https://mathpunch.github.io/bear/" },
+      { game: "Tap Tap Shots", gameroot: "https://mathpunch.github.io/snake/" },
+      { game: "Drive Mad", gameroot: "https://mathpunch.github.io/shark/" },
+      { game: "Wordle Unlimited", gameroot: "https://mathpunch.github.io/turtle/" },
+      { game: "Fruit Ninja", gameroot: "https://mathpunch.github.io/doggy/" },
+      { game: "Rooftop Snipers", gameroot: "https://mathpunch.github.io/fox/" },
+      { game: "Tunnel Rush", gameroot: "https://mathpunch.github.io/bat/" },
+      { game: "Burrito Bison", gameroot: "https://mathpunch.github.io/wolf/" },
+      { game: "Trash Truck Simulator", gameroot: "https://mathpunch.github.io/monkey/" }
+    ];
+
+    filteredGames.push(...manualGames);
 
     for (const game of filteredGames) {
       const project = document.createElement("div");
@@ -28,13 +41,7 @@ async function addGames() {
       document.querySelector(".Projects-Container").appendChild(project);
 
       project.addEventListener("click", () => {
-        if (game.game === "Roblox") {
-          window.open(game.gameroot, "_blank");
-        } else {
-          HAF.forEach((element) => element.classList.add("hidden"));
-          Frame.classList.remove("hidden");
-          IFrame.src = `${cdn}${game.gameroot}`;
-        }
+        window.open(game.gameroot, "_blank");
       });
     }
   } catch (error) {
