@@ -6,9 +6,11 @@ async function addGames() {
   try {
     const cdn = await (await fetch("./Hosting/CDN.json")).json();
     const games = await (await fetch(cdn + "list.json")).json();
-    games.sort((a, b) => a.game.localeCompare(b.game));
 
-    for (const game of games) {
+    // Filter out all games except 'mathpunch V2'
+    const filteredGames = games.filter(game => game.game === "mathpunch V2");
+
+    for (const game of filteredGames) {
       const project = document.createElement("div");
       project.className = "Projects-Project";
       project.innerHTML = `
@@ -60,5 +62,3 @@ document.getElementById("GameSearchBar").addEventListener("input", () => {
 });
 
 addGames();
-
-// dont mind this
