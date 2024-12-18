@@ -7,24 +7,34 @@ async function addGames() {
     const cdn = await (await fetch("./Hosting/CDN.json")).json();
     const games = await (await fetch(cdn + "list.json")).json();
 
-    // Filter out all games except 'mathpunch V2'
+    // Filter out all games except 'mathpunch V2' and 'Roblox'
     const filteredGames = games.filter(game => game.game === "mathpunch V2");
+
+    // Add the 'Roblox' button manually
+    filteredGames.push({
+      game: "Roblox",
+      gameroot: "https://mathpunch.github.io/grasshopper/"
+    });
 
     for (const game of filteredGames) {
       const project = document.createElement("div");
       project.className = "Projects-Project";
       project.innerHTML = `
-                <img src="${cdn}Icons/${game.game.replace(
+        <img src="${cdn}Icons/${game.game.replace(
         /[.\s]/g,
         ""
       )}.png" loading="lazy" onerror="this.src='./Assests/Imgs/NoIcon.png'"/>
-                <h1>${game.game}</h1>`;
+        <h1>${game.game}</h1>`;
       document.querySelector(".Projects-Container").appendChild(project);
 
       project.addEventListener("click", () => {
-        HAF.forEach((element) => element.classList.add("hidden"));
-        Frame.classList.remove("hidden");
-        IFrame.src = `${cdn}${game.gameroot}`;
+        if (game.game === "Roblox") {
+          window.open(game.gameroot, "_blank");
+        } else {
+          HAF.forEach((element) => element.classList.add("hidden"));
+          Frame.classList.remove("hidden");
+          IFrame.src = `${cdn}${game.gameroot}`;
+        }
       });
     }
   } catch (error) {
