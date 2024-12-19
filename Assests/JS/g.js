@@ -69,13 +69,36 @@ document.getElementById("GameSearchBar").addEventListener("input", () => {
     .value.trim()
     .toLowerCase();
   const gameholders = document.querySelector(".Projects-Container");
-  const gmae = gameholders.querySelectorAll(".Projects-Project");
+  const games = gameholders.querySelectorAll(".Projects-Project");
 
-  gmae.forEach((game) => {
+  let found = false;
+
+  games.forEach((game) => {
     var gamenames = game.querySelector("h1").innerText.trim().toLowerCase();
-    if (gamenames.includes(searchedup)) game.classList.remove("hidden");
-    else game.classList.add("hidden");
+    if (gamenames.includes(searchedup)) {
+      game.classList.remove("hidden");
+      found = true;
+    } else {
+      game.classList.add("hidden");
+    }
   });
+
+  // Show "Game Not Found Try Again Dummy" message if no games found
+  let notFoundMessage = document.querySelector(".not-found-message");
+  if (!found) {
+    if (!notFoundMessage) {
+      notFoundMessage = document.createElement("div");
+      notFoundMessage.className = "not-found-message";
+      notFoundMessage.textContent = "Game Not Found Try Again Dummy";
+      notFoundMessage.style.color = "red";
+      notFoundMessage.style.textAlign = "center";
+      gameholders.appendChild(notFoundMessage);
+    }
+  } else {
+    if (notFoundMessage) {
+      notFoundMessage.remove();
+    }
+  }
 });
 
 addGames();
