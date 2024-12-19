@@ -7,12 +7,9 @@ async function addGames() {
     const cdn = await (await fetch("./Hosting/CDN.json")).json();
     const games = await (await fetch(cdn + "list.json")).json();
 
-    // Filter out all games except 'mathpunch V2' and 'Roblox'
-    const filteredGames = games.filter(game => game.game === "mathpunch V2");
-
-    // Add the game buttons manually
+    // Manually add the game buttons
     const manualGames = [
-      { game: "Roblox", gameroot: "https://mathpunch.github.io/grasshopper/" },
+      { game: "Mathpunch V2", gameroot: "https://mathpunch.github.io" },
       { game: "Bitlife", gameroot: "https://mathpunch.github.io/panda/" },
       { game: "Stickmanhook", gameroot: "https://mathpunch.github.io/kitty/" },
       { game: "Super Mario 64", gameroot: "https://mathpunch.github.io/dog/" },
@@ -27,16 +24,11 @@ async function addGames() {
       { game: "Trash Truck Simulator", gameroot: "https://mathpunch.github.io/monkey/" }
     ];
 
-    filteredGames.push(...manualGames);
-
-    for (const game of filteredGames) {
+    for (const game of manualGames) {
       const project = document.createElement("div");
-      project.className = "Projects-Project";
+      project.className = "Projects-Project Game-Button";
       project.innerHTML = `
-        <img src="${cdn}Icons/${game.game.replace(
-        /[.\s]/g,
-        ""
-      )}.png" loading="lazy" onerror="this.src='./Assests/Imgs/NoIcon.png'"/>
+        <img src="./Assests/Imgs/${game.game.replace(/\s/g, '').toLowerCase()}.png" loading="lazy" onerror="this.src='./Assests/Imgs/NoIcon.png'"/>
         <h1>${game.game}</h1>`;
       document.querySelector(".Projects-Container").appendChild(project);
 
@@ -69,7 +61,7 @@ document.getElementById("GameSearchBar").addEventListener("input", () => {
     .value.trim()
     .toLowerCase();
   const gameholders = document.querySelector(".Projects-Container");
-  const games = gameholders.querySelectorAll(".Projects-Project");
+  const games = gameholders.querySelectorAll(".Game-Button");
 
   let found = false;
 
