@@ -4,9 +4,6 @@ const IFrame = document.querySelector(".Projects-IFrame");
 
 async function addGames() {
   try {
-    const cdn = await (await fetch("./Hosting/CDN.json")).json();
-    const games = await (await fetch(cdn + "list.json")).json();
-
     // Manually add the game buttons
     const manualGames = [
       { game: "Mathpunch V2", gameroot: "https://mathpunch.github.io" },
