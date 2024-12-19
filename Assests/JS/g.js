@@ -4,9 +4,15 @@ const IFrame = document.querySelector(".Projects-IFrame");
 
 async function addGames() {
   try {
-    // Manually add the game buttons
+    const cdn = await (await fetch("./Hosting/CDN.json")).json();
+    const games = await (await fetch(cdn + "list.json")).json();
+
+    // Filter out all games except 'mathpunch V2' and 'Roblox'
+    const filteredGames = games.filter(game => game.game === "mathpunch V2");
+
+    // Add the game buttons manually
     const manualGames = [
-      { game: "Mathpunch V2", gameroot: "https://mathpunch.github.io" },
+      { game: "Roblox", gameroot: "https://mathpunch.github.io/grasshopper/" },
       { game: "Bitlife", gameroot: "https://mathpunch.github.io/panda/" },
       { game: "Stickmanhook", gameroot: "https://mathpunch.github.io/kitty/" },
       { game: "Super Mario 64", gameroot: "https://mathpunch.github.io/dog/" },
@@ -21,11 +27,16 @@ async function addGames() {
       { game: "Trash Truck Simulator", gameroot: "https://mathpunch.github.io/monkey/" }
     ];
 
-    for (const game of manualGames) {
+    filteredGames.push(...manualGames);
+
+    for (const game of filteredGames) {
       const project = document.createElement("div");
-      project.className = "Projects-Project Game-Button";
+      project.className = "Projects-Project";
       project.innerHTML = `
-        <img src="./Assests/Imgs/${game.game.replace(/\s/g, '').toLowerCase()}.png" loading="lazy" onerror="this.src='./Assests/Imgs/NoIcon.png'"/>
+        <img src="${cdn}Icons/${game.game.replace(
+        /[.\s]/g,
+        ""
+      )}.png" loading="lazy" onerror="this.src='./Assests/Imgs/NoIcon.png'"/>
         <h1>${game.game}</h1>`;
       document.querySelector(".Projects-Container").appendChild(project);
 
@@ -58,36 +69,13 @@ document.getElementById("GameSearchBar").addEventListener("input", () => {
     .value.trim()
     .toLowerCase();
   const gameholders = document.querySelector(".Projects-Container");
-  const games = gameholders.querySelectorAll(".Game-Button");
+  const gmae = gameholders.querySelectorAll(".Projects-Project");
 
-  let found = false;
-
-  games.forEach((game) => {
+  gmae.forEach((game) => {
     var gamenames = game.querySelector("h1").innerText.trim().toLowerCase();
-    if (gamenames.includes(searchedup)) {
-      game.classList.remove("hidden");
-      found = true;
-    } else {
-      game.classList.add("hidden");
-    }
+    if (gamenames.includes(searchedup)) game.classList.remove("hidden");
+    else game.classList.add("hidden");
   });
-
-  // Show "404 Not Found Dummy" message if no games found
-  let notFoundMessage = document.querySelector(".not-found-message");
-  if (!found) {
-    if (!notFoundMessage) {
-      notFoundMessage = document.createElement("div");
-      notFoundMessage.className = "not-found-message";
-      notFoundMessage.textContent = "404 Not Found Dummy";
-      notFoundMessage.style.color = "red";
-      notFoundMessage.style.textAlign = "center";
-      gameholders.appendChild(notFoundMessage);
-    }
-  } else {
-    if (notFoundMessage) {
-      notFoundMessage.remove();
-    }
-  }
 });
 
 addGames();
