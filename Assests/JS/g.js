@@ -75,13 +75,13 @@ document.getElementById("GameSearchBar").addEventListener("input", () => {
     }
   });
 
-  // Show "Game Not Found Try Again Dummy" message if no games found
+  // Show "404 Not Found Dummy" message if no games found
   let notFoundMessage = document.querySelector(".not-found-message");
   if (!found) {
     if (!notFoundMessage) {
       notFoundMessage = document.createElement("div");
       notFoundMessage.className = "not-found-message";
-      notFoundMessage.textContent = "Game Not Found Try Again Dummy";
+      notFoundMessage.textContent = "404 Not Found Dummy";
       notFoundMessage.style.color = "red";
       notFoundMessage.style.textAlign = "center";
       gameholders.appendChild(notFoundMessage);
